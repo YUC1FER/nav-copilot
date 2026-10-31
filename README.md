@@ -17,7 +17,7 @@ internal_model.xlsx ──┘        │
 
 ## Status
 - [x] Day 1: scope, synthetic data, repo hygiene
-- [ ] Day 2: ingest + reconcile + tests
+- [x] Day 2: ingest + reconcile + tests
 - [ ] Day 3: factsheet template
 - [ ] Day 4: LLM commentary + compliance flags
 - [ ] Day 5: Gmail draft (OAuth, compose scope only)
