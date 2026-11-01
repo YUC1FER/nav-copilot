@@ -14,6 +14,7 @@ import pandas as pd
 
 MODEL_SHEET = "daily_nav"
 REQUIRED_COLUMNS = ["date", "fund_id", "nav_per_share", "shares_outstanding", "aum"]
+DETAIL_COLUMNS = ["fund_name", "share_class", "isin", "currency"]
 
 
 def _check_columns(df: pd.DataFrame, source: Path) -> None:
@@ -39,6 +40,17 @@ def load_admin(path: Path) -> pd.DataFrame:
     df = pd.read_csv(path)
     _check_columns(df, path)
     return _normalise(df)
+
+
+def load_fund_details(path: Path) -> dict[str, dict[str, str]]:
+    """Read the admin CSV's descriptive columns, one entry per fund_id (name, class, ISIN, currency)."""
+    path = Path(path)
+    df = pd.read_csv(path)
+    missing = [c for c in ["fund_id", *DETAIL_COLUMNS] if c not in df.columns]
+    if missing:
+        raise ValueError(f"{path.name}: missing required columns {missing}")
+    unique = df[["fund_id", *DETAIL_COLUMNS]].drop_duplicates("fund_id").set_index("fund_id")
+    return unique.astype(str).to_dict("index")
 
 
 def load_model(path: Path) -> pd.DataFrame:

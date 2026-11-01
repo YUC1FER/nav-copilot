@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>$fund_name - factsheet $as_of</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 640px; margin: 2em auto; color: #1a1a1a; }
+    .banner { background: #fff3cd; border: 1px solid #e0c36a; padding: 0.6em 1em; font-weight: bold; }
+    h1 { margin-bottom: 0.1em; }
+    .sub { color: #555; margin-top: 0; }
+    table { border-collapse: collapse; width: 100%; margin-top: 1.5em; }
+    th, td { text-align: left; padding: 0.5em 0.8em; border-bottom: 1px solid #ddd; }
+    th { width: 55%; font-weight: normal; color: #555; }
+  </style>
+</head>
+<body>
+  <div class="banner">SYNTHETIC DEMO DATA - not a real fund.</div>
+  <h1>$fund_name</h1>
+  <p class="sub">$share_class &middot; $isin &middot; $currency &middot; as of $as_of</p>
+  <table>
+    <tr><th>NAV per share</th><td>$nav_end</td></tr>
+    <tr><th>Month-to-date return</th><td>$mtd_return</td></tr>
+    <tr><th>Annualised volatility</th><td>$volatility</td></tr>
+    <tr><th>Assets under management</th><td>$aum_end $currency</td></tr>
+  </table>
+  <p class="sub">Figures are taken from the administrator's NAV report after reconciliation against the internal model.</p>
+</body>
+</html>

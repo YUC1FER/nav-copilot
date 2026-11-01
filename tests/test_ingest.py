@@ -5,7 +5,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from src.ingest import MODEL_SHEET, REQUIRED_COLUMNS, load_admin, load_model
+from src.ingest import MODEL_SHEET, REQUIRED_COLUMNS, load_admin, load_fund_details, load_model
 
 
 def _rows() -> pd.DataFrame:
@@ -50,6 +50,19 @@ def test_missing_column_raises_and_names_it(tmp_path: Path) -> None:
     broken = _rows().drop(columns=["aum"])
     with pytest.raises(ValueError, match="aum"):
         load_admin(_write_admin(tmp_path / "admin.csv", broken))
+
+
+def test_fund_details_one_entry_per_fund(tmp_path: Path) -> None:
+    rows = _rows().assign(fund_name="Demo A", share_class="Acc USD",
+                          isin="XX0000000001", currency="USD")
+    details = load_fund_details(_write_admin(tmp_path / "admin.csv", rows))
+    assert details == {"DEMO-A": {"fund_name": "Demo A", "share_class": "Acc USD",
+                                  "isin": "XX0000000001", "currency": "USD"}}
+
+
+def test_fund_details_missing_column_raises(tmp_path: Path) -> None:
+    with pytest.raises(ValueError, match="fund_name"):
+        load_fund_details(_write_admin(tmp_path / "admin.csv", _rows()))
 
 
 def test_missing_file_raises(tmp_path: Path) -> None:
